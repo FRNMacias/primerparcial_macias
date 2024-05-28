@@ -16,3 +16,4 @@ int countDevices(FILE *f);
 void llenado(FILE *f,struct red *v);
 struct red* resize(struct red *v, int vec_size);
 void getRegister(uint32_t ID_user, struct red *vec, int cant);
+//void RegisterID();

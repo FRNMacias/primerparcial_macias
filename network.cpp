@@ -1,6 +1,6 @@
 #include "network.h"
 /**
- * @brief Cantidad de bits de un archivo
+ * @brief tamaño de un archivo
  * 
  * @param f manipulador del archiv
  * @return int cant de bits
@@ -11,7 +11,13 @@ int bits(FILE *f){
     rewind(f);
     return b;
 }
-
+/**
+ * @brief ID equipoes en red
+ * 
+ * Muestra en consola el ID de todos los equipos en red
+ * 
+ * @param f manipulador de archivo
+ */
 void showIDs(FILE *f){
     int i=0;
     int b;
@@ -36,7 +42,14 @@ void showIDs(FILE *f){
     }
     
 }
-
+/**
+ * @brief Cantidad de disp. en red
+ * 
+ * retorna la cantidad de dispositivos que se encuentran en red.
+ * 
+ * @param f manipulador de archivo
+ * @return int 
+ */
 int countDevices(FILE *f){
     int i=0,b,sum=0;
     b = bits(f);
@@ -58,7 +71,16 @@ int countDevices(FILE *f){
     }
     return sum;
 }
-
+/**
+ * @brief redimensiona un vector struct red
+ * 
+ * Esta funcion redimensiona un vector de tipo struct red, 
+ * copiando cada uno de sus dato en el nuevo vector y eliminando el anterior.
+ * 
+ * @param v puntero de vector
+ * @param vec_size tamaño 
+ * @return struct red* nuevo puntero
+ */
 struct red* resize(struct red *v, int vec_size){
     int new_size = vec_size +1;
     struct red *aux; 
@@ -69,7 +91,15 @@ struct red* resize(struct red *v, int vec_size){
     delete []v;
     return aux;
 }
-
+/**
+ * @brief Llena un vector struct red
+ * 
+ * Esta funcion clasifica los datos de cada dispositivo, almacenandolos en un vector
+ * de tipo struct red. el puntero que se le proporciona no tiene un tamaño definido
+ * 
+ * @param f manipulador de archivo
+ * @param v puntero de vector
+ */
 void llenado(FILE *f,struct red *v){
     int i=0,b,j=0;
     b = bits(f);
@@ -108,6 +138,18 @@ void llenado(FILE *f,struct red *v){
         j++;
     }
 }
+/**
+ * @brief Get the Register object
+ * 
+ * Estafuncion devuelve el registro completo de un dispositivo,
+ * proporcionando su ID como parámetro y el vector en donde 
+ * esán guardados los datos.
+ * No llamar esta función antes de 'llenado()' y 'countDevices()'
+ * 
+ * @param ID_user ID del dispositivo
+ * @param vec puntero de vector
+ * @param cant cant de dispositivos en linea
+ */
 void getRegister(uint32_t ID_user, struct red *vec, int cant){
     int band = 0,pos;
     for(int i=0; i<cant; i++){
@@ -157,3 +199,26 @@ void getRegister(uint32_t ID_user, struct red *vec, int cant){
         }
     }  
 }
+/*void RegisterID(uint32_t id, struct red *vec, int cant){
+    int band = 0,pos;
+    for(int i=0; i<cant; i++){
+        if(vec[i].ID == id){
+            band = 1;
+            pos=i;
+            i = cant;
+        }
+    }
+    if(band == 0){
+        printf("\nEl IDE ingresado no es valido");
+    }
+    else{
+        printf("\nSecuencias de ID:\n");
+        if(vec[pos].lower==0){
+            printf("\nID %u",vec[pos].ID);
+        }
+        else{
+            vec[pos].upper[0]
+        }
+
+    }
+}*/
