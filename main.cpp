@@ -11,7 +11,13 @@ int main(){
     llenado(f,vec);  
     int cant;
     cant = countDevices(f); //devuelve cantidad de dispositivos en la red,es igual al tamaño del vector struct red. 
-    
+    printf("\nCantidad de dispositivos en la red: %d",cant);
+    int band,pos;
+    uint32_t ID_user;
+    printf("\nIngrese ID: ");
+    scanf("%u",&ID_user);
+    getRegister(ID_user,vec,cant);
+
     fclose(f);
     return 0;
 }

@@ -97,12 +97,63 @@ void llenado(FILE *f,struct red *v){
         aux1 = h1 << 8;
         info = aux >> 24;
         if(v[pos].type == 1){ // sensor
-            v[pos].inf = info & 0x30;
+            info = info & 0x30;
+            v[pos].inf = info >> 4;
         }
         if(v[pos].type == 2){//actuador
-            v[pos].inf = info & 0xA0;
+            info = info & 0xA0;
+            v[pos].inf = info >> 7;
         }
         i=ftell(f);
         j++;
     }
+}
+void getRegister(uint32_t ID_user, struct red *vec, int cant){
+    int band = 0,pos;
+    for(int i=0; i<cant; i++){
+        if(vec[i].ID == ID_user){
+            band = 1;
+            pos=i;
+            i = cant;
+        }
+    }
+    if(band == 0){
+        printf("\nEl IDE ingresado no es valido");
+    }
+    else{
+        printf("\nID del equipo: %u",vec[pos].ID);
+        if(vec[pos].type == 0){ 
+            printf("\nCPU");
+        }
+        if(vec[pos].type == 1){ 
+            if(vec[pos].inf==0){
+                printf("\nSensor de caudal");
+            }
+            if(vec[pos].inf==1){
+                printf("\nSensor de temperatura");
+            }
+            if(vec[pos].inf==2){
+                printf("\nSensor de presion");
+            }
+            if(vec[pos].inf==0){
+                printf("\nSensor de nivel");
+            }
+        }
+        if(vec[pos].type == 2){ 
+            if(vec[pos].inf==0){
+                printf("\nActuador, electro valcula");
+            }else{
+                printf("\nActuador, motor");
+            }
+        }
+        if(vec[pos].type == 3){
+            printf ("\nConcentrador");
+        }
+        printf("\nCantidad de equipos inferiores: %u",vec[pos].lower);
+        if(vec[pos].lower != 0){
+            for(int j=0; j<vec[pos].lower;j++){
+                printf("\nID%d: %u",j,vec[pos].upper[j]);
+            }
+        }
+    }  
 }
